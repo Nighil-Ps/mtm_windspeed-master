@@ -16,14 +16,11 @@ from email.mime.base import MIMEBase
 def iso_data_fetch_calc():
         today = datetime.now()
         print("running time:", today)
-        try:
-                engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
-                #engine = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/MTM")
-                metadata =MetaData()
-                metadata.reflect(bind = engine)
-                conn = engine.connect()
-        except:
-                print("Engine creation failed")
+        engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
+        #engine = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/MTM")
+        metadata =MetaData()
+        metadata.reflect(bind = engine)
+        conn = engine.connect()
         adadata = metadata.tables['ADA_DATA_MTM_chk_valid']
         #validation=metadata.tables['ISO_VALIDATION_ADA']
         noon_parameter = conn.execute(select([adadata.c.VESSEL_id,adadata.c.SOG,adadata.c.DRAFT_AFT,adadata.c.DRAFT_FORE,adadata.c.STW,adadata.c.RPM,adadata.c.POWER,adadata.c.WIND_DIRECTION,adadata.c.WIND_SPEED,adadata.c.HEADING,adadata.c.ID,adadata.c.validation,adadata.c.outlier]).where(and_(adadata.c.UTC_REPORT_DATE_TIME > '2020-05-30 00:00:00',adadata.c.P_I== None,adadata.c.VESSEL_id=='MVR'))).fetchall()

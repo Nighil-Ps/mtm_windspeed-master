@@ -34,8 +34,9 @@ try:
         metadata.reflect(bind = engine)
         conn = engine.connect()
         adadata = metadata.tables['ADA_DATA_MTM_chk_valid']
-except:
-        print("Engine creation failed")
+except Exception as exception:
+	print(exception)
+	sys.exit()
 #noon_parameter = conn.execute(select([adadata.c.VESSEL_id,adadata.c.SOG,adadata.c.DRAFT_AFT,adadata.c.DRAFT_FORE,adadata.c.STW,adadata.c.RPM,adadata.c.POWER,adadata.c.WIND_DIRECTION,adadata.c.WIND_SPEED,adadata.c.HEADING,adadata.c.ID])).fetchall()#.where(adadata.c.UID == 6).where(adadata.c.UID == 1).where(adadata.c.CAA == 0)
 
 

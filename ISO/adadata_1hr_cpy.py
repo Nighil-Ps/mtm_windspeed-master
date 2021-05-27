@@ -23,8 +23,9 @@ try:
         metadata =MetaData()
         metadata.reflect(bind = engine)
         conn = engine.connect()
-except:
-        print("Engine creation failed")
+except Exception as exception:
+	print(exception)
+	sys.exit()
 adadata = metadata.tables['ADA_DATA_MTM']
 adadata_1hr = metadata.tables['ADA_DATA_1HR']
 # utc_param = conn.execute(select([adadata.c.ID,adadata.c.UTC_REPORT_DATE_TIME]).order_by(asc(adadata.c.UTC_REPORT_DATE_TIME))).fetchall()
@@ -173,8 +174,9 @@ try:
 	insert_q = adadata_1hr.insert()
 	conn.execute(insert_q,dct_data_insert)
 
-except:
-        print("Try again. Something went wrong")
+except Exception as exception:
+	print(exception)
+	
 
 finally:
 	conn.close()

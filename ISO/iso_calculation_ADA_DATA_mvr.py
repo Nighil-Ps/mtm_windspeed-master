@@ -18,8 +18,9 @@ def draft_from_noon():
                 metadata =MetaData()
                 metadata.reflect(bind = engine)
                 conn = engine.connect()
-        except:
-                print("Engine creation failed")
+        except Exception as exception:
+                print(exception)
+                sys.exit()
         adadata = metadata.tables['ADA_DATA_MTM']
         noondata=metadata.tables['NOONDATA']
         noon_param=conn.execute(select([noondata.c.UID,noondata.c.Vessel_Name,noondata.c.REPORT_DATE_TIME,noondata.c.DRAFT,noondata.c.DRAFT_AFT,noondata.c.DRAFT_FWD]).where(and_(noondata.c.REPORT_DATE_TIME>='2020-10-17 00:00:00',noondata.c.Vessel_Name=='MKW'))).fetchall()

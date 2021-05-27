@@ -33,8 +33,9 @@ try:
         metadata =MetaData()
         metadata.reflect(bind = engine)
         conn = engine.connect()
-except:
-        print("Engine creation failed")
+except Exception as exception:
+	print(exception)
+	sys.exit()
 adadata = metadata.tables['ADA_DATA_MTM_chk_valid']
 adadata_4hr = metadata.tables['ADA_DATA_4HR_mvr']
 def ada_4hr():

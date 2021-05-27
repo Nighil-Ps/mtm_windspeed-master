@@ -9,8 +9,9 @@ try:
         metadata =MetaData()
         metadata.reflect(bind = engine)
         conn = engine.connect()
-except:
-        print("Engine creation failed")
+except Exception as exception:
+	print(exception)
+	sys.exit()
 adadata = metadata.tables['ADA_DATA_MTM']
 utc_param = conn.execute(select( [adadata.c.UTC_REPORTED_DATE,adadata.c.UTC_REPORTED_TIME,adadata.c.ID]).where(adadata.c.UTC_REPORT_DATE_TIME == None)).fetchall()
 print("utc_param:",utc_param)

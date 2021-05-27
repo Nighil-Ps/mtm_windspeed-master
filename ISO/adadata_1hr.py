@@ -1,3 +1,5 @@
+import sys
+
 from sqlalchemy import create_engine,MetaData, select,update
 from sqlalchemy.orm import Session
 
@@ -18,13 +20,15 @@ from sqlalchemy import asc
 from sqlalchemy import and_
 
 try:
-        engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTM")
-        # engine = create_engine("mysql+pymysql://workfromhome:monitorcoronadementia@172.104.173.82/MTM")
-        metadata =MetaData()
-        metadata.reflect(bind = engine)
-        conn = engine.connect()
-except:
-        print("Engine creation failed")
+	engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTMm")
+    # engine = create_engine("mysql+pymysql://workfromhome:monitorcoronadementia@172.104.173.82/MTM")
+	metadata = MetaData()
+	metadata.reflect(bind=engine)
+	conn = engine.connect()
+except Exception as exception:
+	print(exception)
+	sys.exit()      
+
 adadata = metadata.tables['ADA_DATA_MTM']
 adadata_1hr = metadata.tables['ADA_DATA_1HR']
 utc_param = conn.execute(select([adadata.c.ID,adadata.c.UTC_REPORT_DATE_TIME]).where(adadata.c.check_status==None).order_by(asc(adadata.c.UTC_REPORT_DATE_TIME))).fetchall()
@@ -69,8 +73,8 @@ try:
 		power_lst=[]
 		pi_lst=[]
 		dct_data_insert={}
-		ada_param = conn.execute(select( [adadata.c.SOG,adadata.c.STW,adadata.c.WIND_SPEED,adadata.c.TORQUE,adadata.c.RPM,adadata.c.DRAFT_MEAN,adadata.c.RUDDER_ANGLE,adadata.c.WIND_DIRECTION,adadata.c.HEADING,adadata.c.ID,adadata.c.UTC_REPORT_DATE_TIME,adadata.c.DRAFT_FORE,adadata.c.DRAFT_AFT,adadata.c.POSITION_LATITUDE,adadata.c.LATITUDE_N_S,adadata.c.POSITION_LONGITUDE,adadata.c.LONGITUDE_E_W,adadata.c.Corrected_Power,adadata.c.Ref_speed,adadata.c.P_I,adadata.c.VESSEL_id,adadata.c.validation,adadata.c.outlier,adadata.c.POWER]).where(and_(adadata.c.UTC_REPORT_DATE_TIME.between(start,end),adadata.c.validation!=None,adadata.c.outlier!=None)).order_by(asc(adadata.c.UTC_REPORT_DATE_TIME))).fetchall() 
-		
+		ada_param = conn.execute(select( [adadata.c.SOG,adadata.c.STW,adadata.c.WIND_SPEED,adadata.c.TORQUE,adadata.c.RPM,adadata.c.DRAFT_MEAN,adadata.c.RUDDER_ANGLE,adadata.c.WIND_DIRECTION,adadata.c.HEADING,adadata.c.ID,adadata.c.UTC_REPORT_DATE_TIME,adadata.c.DRAFT_FORE,adadata.c.DRAFT_AFT,adadata.c.POSITION_LATITUDE,adadata.c.LATITUDE_N_S,adadata.c.POSITION_LONGITUDE,adadata.c.LONGITUDE_E_W,adadata.c.Corrected_Power,adadata.c.Ref_speed,adadata.c.P_I,adadata.c.VESSEL_id,adadata.c.validation,adadata.c.outlier,adadata.c.POWER]).where(and_(adadata.c.UTC_REPORT_DATE_TIME.between(start,end),adadata.c.validation!=None,adadata.c.outlier!=None)).order_by(asc(adadata.c.UTC_REPORT_DATE_TIME))).fetchall()
+
 		# print(ada_param)
 		if not ada_param:
 			print("No data")
@@ -79,48 +83,48 @@ try:
 			continue
 		else:
 			for rslt_param in ada_param:
-				
+
 				update_adadata = update(adadata).where(adadata.c.ID==str(rslt_param[9]))
 				update_adadata=update_adadata.values(check_status='True')
 				conn.execute(update_adadata)
 				if(rslt_param[0]!=None):
 					sog_lst.append(rslt_param[0])
 				if(rslt_param[1]!=None):
-					
+
 					stw_lst.append(rslt_param[1])
 				if(rslt_param[2]!=None):
-					
+
 					wind_speed_lst.append(rslt_param[2])
 				if(rslt_param[3]!=None):
-					
+
 					torque_lst.append(rslt_param[3])
 				if(rslt_param[4]!=None):
-					
+
 					rpm_lst.append(rslt_param[4])
 				if(rslt_param[5]!=None):
-					
+
 					draft_mean_lst.append(rslt_param[5])
 				if(rslt_param[6]!=None):
-					
+
 					rudder_angle_lst.append(rslt_param[6])
 				if(rslt_param[7]!=None):
-						
+
 					wind_direction_lst.append(rslt_param[7])
 				if(rslt_param[8]!=None):
-						
+
 					heading_lst.append(rslt_param[8])
 
 				rprt_datetime_lst.append(rslt_param[10])
 
 				if(rslt_param[11]!=None):
-					
+
 					draft_for_lst.append(rslt_param[11])
 
 				if(rslt_param[12]!=None):
-					
+
 					draft_aft_lst.append(rslt_param[12])
 				if(rslt_param[23]!=None):
-					
+
 					power_lst.append(rslt_param[23])
 
 				pos_lat_lst.append(rslt_param[13])
@@ -132,22 +136,22 @@ try:
 					if(rslt_param[17]!=None):
 						# print("cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc")
 						corrctd_pwr_lst.append(rslt_param[17])
-					
+
 					if(rslt_param[18]!=None):
 						ref_speed_lst.append(rslt_param[18])
-		
-						
+
+
 					if(rslt_param[19]!=None):
 						pi_lst.append(rslt_param[19])
-					
-						
-				
-				
-				
-				
 
 
-				
+
+
+
+
+
+
+
 
 		# print("soglst:",sog_lst)
 		# print("stwlst:",stw_lst)
@@ -273,7 +277,7 @@ try:
 		print("last end:",end)
 	print("No of blocks:",check_blk)
 
-except:
-        print("Try again. Something wend wrong")
+except Exception as exception:
+	print(exception)
 finally:
 	conn.close()

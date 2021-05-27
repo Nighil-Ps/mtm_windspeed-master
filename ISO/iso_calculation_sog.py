@@ -19,15 +19,12 @@ from email.mime.base import MIMEBase
 
 def iso_data_fetch_calc():
         print("fn inside")
-        try:
-                # engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
-                engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTM")
-                print("add")
-                metadata = MetaData()
-                metadata.reflect(bind = engine)
-                conn = engine.connect()
-        except:
-                print("Engine creation failed")
+        # engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
+        engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTM")
+        print("add")
+        metadata = MetaData()
+        metadata.reflect(bind = engine)
+        conn = engine.connect()
         validation_dct={}
 
         noondata = metadata.tables['NOONDATA']

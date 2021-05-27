@@ -27,8 +27,9 @@ def iso_data_fetch_calc():
                 metadata.reflect(bind = engine)
                 conn = engine.connect()
 
-        except:
-                print("Engine creation failed")
+        except Exception as exception:
+                print(exception)
+                sys.exit()
         validation_dct={}
 
         NOONDATA = metadata.tables['NOONDATA']
