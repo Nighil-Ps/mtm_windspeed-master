@@ -18,10 +18,10 @@ import statistics
 from scipy import special
 from sqlalchemy import asc
 from sqlalchemy import and_
-
+from decouple import config
 try:
-	engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTMm")
-    # engine = create_engine("mysql+pymysql://workfromhome:monitorcoronadementia@172.104.173.82/MTM")
+	engine = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('localhost'),"/",config('database'))
+    # engine = create_engine("mysql+pymysql://",config('adadata_user'),":",config('adadata_password'),"@",config('adadata_localhost'),"/",config('database'))
 	metadata = MetaData()
 	metadata.reflect(bind=engine)
 	conn = engine.connect()

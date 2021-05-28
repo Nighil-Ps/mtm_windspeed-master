@@ -14,14 +14,15 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
+from decouple import config
 # import pdb; pdb.set_trace()
 
 
 def iso_data_fetch_calc():
         print("fn inside")
         try:
-                # engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
-                engine = create_engine("mysql+pymysql://sarathlal:sarath@123@localhost/MTM")
+                # engine = create_engine("mysql+pymysql://",config('iso_calc_user'),":",config('iso_calc_localhost'),"/",config('database'))
+                engine = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('localhost'),"/",config('database'))
                 print("add")
                 metadata = MetaData()
                 metadata.reflect(bind = engine)
@@ -312,10 +313,10 @@ def alert_mail(str_error):
         
         msg = MIMEMultipart()
         # storing the senders email address
-        fromaddr = "alerts@xship.in"
+        fromaddr = config('frmaddrs')
         msg['From'] = fromaddr
         # storing the receivers email address   script-status-alerts@xship.in
-        toaddrs = "script-status-alerts@xship.in"
+        toaddrs = config('toaddrs')
         msg['To'] = toaddrs
         # storing the subject
         msg['Subject'] = "MTM  NOONDATA iso script status alert"

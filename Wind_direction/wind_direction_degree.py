@@ -1,12 +1,18 @@
 import pymysql
 import pymysql.cursors
-mydb = pymysql.connect(
-  host="localhost",
-  user="lekha",
-  passwd="lekha@123",
-  database="PIL"
-)
-mycursor=mydb.cursor()
+from decouple import config
+
+try:
+        mydb = pymysql.connect(
+                host=config('host'),
+                user=config('user'),
+                passwd=config('passwd'),
+                database=config('database')
+                )
+        mycursor=mydb.cursor()
+except Exception as exception:
+	print(exception)
+	sys.exit() 
 def wind_dir_calc():
 	q1=mycursor.execute("SELECT UID,WindDirection FROM NOONDATA WHERE WindDirection IS NOT NULL ")
 	wind_dirs=mycursor.fetchall()

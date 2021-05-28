@@ -9,6 +9,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from decouple import config
+
 def calc_wind_speed():
 	# q1="SELECT UID FROM NOONDATA WHERE DATE(mail_date) = DATE(NOW())"
 	q1="SELECT UID FROM NOONDATA WHERE Vessel_Name='PYN' "
@@ -33,8 +35,8 @@ def calc_wind_speed():
 			print("no windforce")
 def status_alert(e):
 	body = ''
-	fromaddr = "alerts@xship.in"
-	toaddrs = "script-status-alerts@xship.in"
+	fromaddr = config('frmaddrs')
+	toaddrs = config('toaddrs')
 
 	# toaddrs = "lekha@xship.in"
 	#toaddrs = "anjali@xship.in"

@@ -25,11 +25,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from decouple import config
 
 try:
-        #engine = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/MTM")
-        engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
-        # engine = create_engine("mysql+pymysql://workfromhome:monitorcoronadementia@172.104.173.82/MTM")
+        #engine = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('adadata_localhost'),"/",config('database'))
+        engine = create_engine("mysql+pymysql://",config('iso_calc_user'),":",config('iso_calc_localhost'),"/",config('database'))
+        # engine = create_engine("mysql+pymysql://",config('adadata_user'),":",config('adadata_password'),"@",config('adadata_localhost'),"/",config('database'))
         metadata =MetaData()
         metadata.reflect(bind = engine)
         conn = engine.connect()
@@ -360,8 +361,8 @@ def validation():
 		
 def status_alert(e):
 	body = ''
-	fromaddr = "alerts@xship.in"
-	toaddrs = "script-status-alerts@xship.in"
+	fromaddr = config('frmaddrs')
+	toaddrs = config('toaddrs')
 	# toaddrs = "lekha@xship.in"
 	#toaddrs = "anjali@xship.in"
 	#cc = "syamk@xship.in,shyamp@xship.in,sarathlal@xship.in,lekha@xship.in,sriram@xship.in"

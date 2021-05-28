@@ -12,12 +12,14 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
+from decouple import config
+
 
 def iso_data_fetch_calc():
         today = datetime.now()
         print("running time:", today)
-        engine = create_engine("mysql+pymysql://phpmyadmin:distancemonopetri@localhost/MTM")
-        #engine = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/MTM")
+        engine = create_engine("mysql+pymysql://",config('iso_calc_user'),":",config('iso_calc_localhost'),"/",config('database'))
+        #engine = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('adadata_localhost'),"/",config('database'))
         metadata =MetaData()
         metadata.reflect(bind = engine)
         conn = engine.connect()
@@ -199,10 +201,10 @@ def alert_mail(str_error):
         
         msg = MIMEMultipart()
         # storing the senders email address
-        fromaddr = "alerts@xship.in"
+        fromaddr = config('frmaddrs')
         msg['From'] = fromaddr
         # storing the receivers email address   script-status-alerts@xship.in
-        toaddrs = "script-status-alerts@xship.in"
+        toaddrs = config('toaddrs')
         msg['To'] = toaddrs
         # storing the subject
         msg['Subject'] = "MTM  ADA DATA iso script status alert"

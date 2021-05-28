@@ -13,6 +13,7 @@ from email.mime.base import MIMEBase
 from sqlalchemy.sql import text
 # from datetime import datetime
 import datetime
+from decouple import config
 
 def ais_iso_calc():
 	
@@ -496,9 +497,9 @@ def weather_iso_calc():
 			continue
 def status_alert(e):
 	body = ''
-	fromaddr = "alerts@xship.in"
-	# toaddrs = "script-status-alerts@xship.in"
-	toaddrs = "lekha@xship.in"
+	fromaddr = config('frmaddrs')
+	toaddrs = config('toaddrs')
+	#toaddrs = "lekha@xship.in"
 	#cc = "syamk@xship.in,shyamp@xship.in,sarathlal@xship.in,lekha@xship.in,sriram@xship.in"
 
 	msg = MIMEMultipart()
@@ -521,13 +522,13 @@ def status_alert(e):
 	s.quit()
 						
 if __name__ == "__main__":
-	engine_dss_new = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/MTM")
+	engine_dss_new = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('adadata_localhost'),"/",config('database'))
 	
-	# engine = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/PIL")
+	# engine = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('adadata_localhost'),"/",config('pil_database'))
 	metadata_dss_new =MetaData()
 	metadata_dss_new.reflect(bind = engine_dss_new)
 	conn_dss = engine_dss_new.connect()
-	engine_ais = create_engine("mysql+pymysql://sarathlal:sarath@123@172.104.173.82/ais")
+	engine_ais = create_engine("mysql+pymysql://",config('user'),":",config('password'),"@",config('adadata_localhost'),"/",config('ais_database'))
 	metadata_ais =MetaData()
 	metadata_ais.reflect(bind = engine_ais)
 	conn_ais = engine_ais.connect()
